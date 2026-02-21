@@ -1,0 +1,12 @@
+<form action="" method="get">
+    <input type="text" name="term" value="<?= htmlspecialchars($term) ?>" />
+    <input type="submit" value="Search" />
+</form>
+
+<ul>
+    <?php foreach ($users as $user): ?>
+    <li><a href="<?= "{$urlForUsers}/{$user['id']}" ?>"><?= htmlspecialchars($user['nickname']) ?></li>
+    <?php endforeach; ?>
+</ul>
+<div><a href="<?= $urlForNew ?>">Add new user</a></div>
+
