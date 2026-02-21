@@ -20,7 +20,7 @@ $app = AppFactory::createFromContainer($container);
 $app->addErrorMiddleware(true, true, true);
 $router = $app->getRouteCollector()->getRouteParser();
 
-$app->get('/', function ($response) use ($router) {
+$app->get('/', function ($request, $response) use ($router) {
     $args = ['url' => $router->urlFor('users')];
     return $this->get('renderer')->render($response, 'index.phtml', $args);
 });
@@ -39,7 +39,7 @@ $app->get('/users', function ($request, $response) use ($users, $router) {
     return $this->get('renderer')->render($response, 'users/index.phtml', $params);
 })->setName('users');
 
-$app->get('/users/{id:[0-9]+}', function ($response, $args) use ($users, $router) {
+$app->get('/users/{id:[0-9]+}', function ($request, $response, $args) use ($users, $router) {
     $id = (int) $args['id'];
     $user = null;
 
@@ -58,7 +58,7 @@ $app->get('/users/{id:[0-9]+}', function ($response, $args) use ($users, $router
     return $this->get('renderer')->render($response, 'users/show.phtml', $params);
 })->setName('user');
 
-$app->get('/users/new', function ($response) use ($router) {
+$app->get('/users/new', function ($request, $response) use ($router) {
     $args = ['url' => $router->urlFor('users')];
     return $this->get('renderer')->render($response, 'users/new.phtml', $args);
 })->setName('newUser');
