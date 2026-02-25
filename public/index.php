@@ -5,7 +5,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use Slim\Factory\AppFactory;
 use DI\Container;
 
-session_start();
+session_start(); // session
 
 $data = file_get_contents("user.json") ?: '{}';
 $users = json_decode($data, true);
