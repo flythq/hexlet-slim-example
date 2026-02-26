@@ -4,13 +4,15 @@
     <div>
     <label>
         Nickname:
-        <input type="text" name="user[nickname]" />
+        <input type="text" name="user[nickname]" value="<?= htmlspecialchars($user['nickname'] ?? '') ?>" />
+        <span class="error"><?= $errors['nickname'] ?? '' ?></span>
     </label>
     </div>
     <div>
     <label>
         Email:
-        <input type="text" name="user[email]" />
+        <input type="text" name="user[email]" value="<?= htmlspecialchars($user['email'] ?? '') ?>" />
+        <span class="error"><?= $errors['email'] ?? '' ?></span>
     </label>
     </div>
     <input type="submit" value="Submit" />

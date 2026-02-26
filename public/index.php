@@ -69,12 +69,35 @@ $app->get('/users/{id:[0-9]+}', function ($request, $response, $args) use ($user
 })->setName('user');
 
 $app->get('/users/new', function ($request, $response) use ($router) {
-    $args = ['url' => $router->urlFor('users')];
+    $args = [
+        'url' => $router->urlFor('users'),
+    ];
+
     return $this->get('renderer')->render($response, 'users/new.phtml', $args);
 })->setName('newUser');
 
 $app->post('/users', function ($request, $response) use ($users, $router) {
     $user = $request->getParsedBodyParam('user');
+    $errors = [];
+
+    if (strlen($user['nickname']) < 5) {
+        $errors['nickname'] = "Nickname must be greater than 4 characters";
+    }
+
+    if (empty($user['email'])) {
+        $errors['email'] = 'Must be not empty';
+    }
+
+    if (!empty($errors)) {
+        $params = [
+            'user' => $user,
+            'errors' => $errors,
+            'url' => $router->urlFor('users')
+        ];
+        $response = $response->withStatus(422);
+        return $this->get('renderer')->render($response, 'users/new.phtml', $params);
+    }
+
     $user['id'] = count($users) + 1;
     $users[] = $user;
     file_put_contents('user.json', json_encode($users));
