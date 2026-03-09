@@ -1,13 +1,28 @@
-<h1><?= $flash['success'][0] ?></h1>
-<form action="" method="get">
-    <input type="text" name="term" value="<?= htmlspecialchars($term) ?>" />
-    <input type="submit" value="Search" />
-</form>
+<h1>Users</h1>
 
+<?php if (isset($_SESSION['isAdmin'])): ?>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_METHOD" value="DELETE">
+        <input type="submit" value="Logout">
+    </form>
+<?php endif; ?>
+
+<?php if (!empty($flash)): ?>
+    <p style="color: green"><?= $flash['success'][0]?></p>
+<?php endif; ?>
+<p><a href="/users/new">Add new user</a></p>
+<div>
+    <form action="/users" method="get">
+        <input type="search" name="term" value="<?= htmlspecialchars($term) ?>" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+<hr>
+<?php if (empty($users)): ?>
+    <p>Nothing to display, sorry. :(</p>
+<?php endif; ?>
 <ul>
-    <?php foreach ($users as $user): ?>
-    <li><a href="<?= "{$urlForUsers}/{$user['id']}" ?>"><?= htmlspecialchars($user['nickname']) ?></li>
+    <?php foreach ($users as $id => $user): ?>
+        <li><a href="/users/<?= htmlspecialchars($id) ?>"><?= htmlspecialchars($user['nickname']) ?></a></li>
     <?php endforeach; ?>
 </ul>
-<div><a href="<?= $urlForNew ?>">Add new user</a></div>
-
